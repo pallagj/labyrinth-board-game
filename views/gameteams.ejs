@@ -1,0 +1,54 @@
+<%- include('common/header') -%>
+
+<div class="container">
+    <%- include('common/navbar') -%>
+
+    <main>
+        <table class="table table-borderless">
+            <thead>
+            <tr>
+                <th scope="col">Team name</th>
+                <th scope="col">Number of games</th>
+                <th scope="col"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <th scope="row">BestFriends</th>
+                <td>34</td>
+                <td>
+                    <button class="btn btn-sm btn-info"><b>ℹ</b></button>
+                    <button class="btn btn-sm btn-warning"><b>✏</b></button>
+                    <button class="btn btn-sm btn-danger"><b>🗑</b></button>
+                    <button class="btn btn-sm btn-danger"><b>▶</b></button>
+                </td>
+            </tr>
+            <tr>
+                <th scope="row">BirdClub</th>
+                <td>12</td>
+                <td>
+                    <button class="btn btn-sm btn-info"><b>ℹ</b></button>
+                    <button class="btn btn-sm btn-warning"><b>✏</b></button>
+                    <button class="btn btn-sm btn-danger"><b>🗑</b></button>
+                    <button class="btn btn-sm btn-danger"><b>▶</b></button>
+                </td>
+            </tr>
+            <tr>
+                <th scope="row">WorkTeam</th>
+                <td>6</td>
+                <td>
+                    <button class="btn btn-sm btn-info"><b>ℹ</b></button>
+                    <button class="btn btn-sm btn-warning disabled"><b>✏</b></button>
+                    <button class="btn btn-sm btn-danger"><b>🗑</b></button>
+                    <button class="btn btn-sm btn-danger"><b>▶</b></button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <div class="form-signin mt-5">
+            <button class="w-100 p-2 mt-2 btn btn-lg btn-primary btn-block" type="submit">Create new team</button>
+        </div>
+    </main>
+</div>
+
+<%- include('common/footer') -%>

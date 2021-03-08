@@ -1,0 +1,63 @@
+<%
+    let hasUser  = (typeof user !== 'undefined')
+
+    let passwordText  = hasUser ? 'New password' : 'Password'
+    let btnText   = hasUser ? 'Save' : 'Register'
+
+    //Get param info
+    function info(param){
+        return hasUser ? user[param] : ''
+    }
+
+    //Get selected gender
+    function selected(value) {
+        if (info('gender') === value)
+            return 'selected'
+
+        return ''
+    }
+
+    let pictureUrl = hasUser && typeof user.pictureUrl !== 'undefined' ? user.pictureUrl : '/images/darklogo.svg'
+    let birth = hasUser && typeof user.birth !== 'undefined' && user.birth !== null? (user.birth + '').slice(0,10) : ''
+%>
+
+<link href="/css/editimage.css" rel="stylesheet">
+<script src="/js/userprofile.js"></script>
+
+<form class="form-signin" method="POST">
+    <!-- EDITABLE PROFILE PICTURE -->
+    <div class="imgContainer form-signin" width="135" height="135">
+        <img class="img rounded-circle" src="<%= pictureUrl.split('=')[0] %>" alt="Profile picture" class="image"  width="135" height="135">
+
+        <label for="image-file" class="overlay img rounded-circle form-signin"  width="135" height="135">
+            <div class="text" width="135" height="135">Edit</div>
+        </label>
+        <input id="image-file" type="file" accept=".jpg,.jpeg,.png" onchange="fileChange()" hidden>
+
+    </div>
+
+    <!-- INPUTS -->
+    <input type="text" id="firstName" class="form-control" placeholder="First name" required="" autofocus="" name="givenName" value="<%=info('givenName')%>">
+    <input type="text" id="lastName" class="form-control" placeholder="Last name" required="" autofocus="" name="familyName" value="<%=info('familyName')%>">
+
+    <select class="form-select form-control" aria-label="Select gender" name="gender" value="<%=info('gender')%>">
+        <option value="null" <%= selected(null) %>>Not given</option>
+        <option value="male" <%= selected('male') %>>Male</option>
+        <option value="female" <%= selected('female') %>>Female</option>
+    </select>
+    <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required="" autofocus="" name="email" value="<%=info('email')%>">
+    <input type="date" id="birthDate" class="form-control" placeholder="Date of birth"  autofocus="" name="birth" value="<%=birth%>">
+
+    <input type="password" id="inputPassword" class="form-control" placeholder="<%=passwordText%>" <%=hasUser?'':'required'%> name="password" value="<%=info('password')%>">
+
+    <%- include('error') -%>
+
+    <!-- BUTTONS -->
+    <button class="btn btn-lg btn-primary btn-block" type="submit"><%=btnText%></button>
+
+    <% if (hasUser) { %>
+        <a class="btn btn-lg btn-danger btn-block" href="index.ejs">Delete account</a>
+    <% } else { %>
+        <a class="btn btn-lg btn-secondary btn-block" type="submit" href="/">Back</a>
+    <% } %>
+</form>

@@ -1,0 +1,54 @@
+<%
+    let hasUser  = (typeof user !== 'undefined')
+
+    //Get active home state
+    function active(name) {
+        if (url === '/' + name)
+           return 'active'
+
+        return ''
+    }
+
+    //Set default profile pictrue url
+    let pictureUrl = hasUser && typeof user.pictureUrl !== 'undefined' ? user.pictureUrl : '/images/lightlogo.svg'
+ %>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <!-- PAGES -->
+    <div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-item nav-link <%= active('home') %>" href="home">Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-item nav-link <%= active('friends') %>" href="friends">Friends</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-item nav-link <%= active('gameteams') %>" href="gameteams">Game teams</a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- TITLE -->
+    <div class="mx-auto order-0">
+        <a class="navbar-brand mx-auto" href="#">Labyrinth</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".dual-collapse2">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    </div>
+
+    <!-- PROFILE MENU -->
+    <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
+        <ul class="navbar-nav ml-auto flex-row flex-wrap ms-md-auto">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <img src="<%= pictureUrl %>" width="30" height="30" class="rounded-circle">
+                </a>
+                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink">
+                    <a class="dropdown-item" href="profilesettings">Edit Profile</a>
+                    <a class="dropdown-item" href="#" onclick="signOut();">Log Out</a>
+                </div>
+            </li>
+        </ul>
+    </div>
+</nav>

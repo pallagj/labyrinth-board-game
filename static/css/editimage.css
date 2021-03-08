@@ -1,0 +1,43 @@
+.imgContainer {
+    user-select: none;
+    position: relative;
+    width: 50%;
+    padding: 0;
+    margin-bottom: 25px;
+}
+
+.image {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 8px;
+    height: 135px;
+    width: 135px;
+    opacity: 0;
+    transition: .5s ease;
+    background-color: #152433;
+}
+
+.imgContainer:hover .overlay {
+    opacity: 0.5;
+}
+
+.text {
+    color: white;
+    font-size: 20px;
+    font-family: calibri, serif;
+    font-weight: bold;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    text-align: center;
+}

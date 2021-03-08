@@ -1,0 +1,6 @@
+/* Hungarian login title overflows :( */
+
+span[id^=not_signed_]:before {
+    content: 'Google login';
+    padding-right:20px;
+}
