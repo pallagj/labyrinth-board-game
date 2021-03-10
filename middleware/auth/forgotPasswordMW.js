@@ -8,32 +8,29 @@ module.exports = function(objectrepository) {
     const UserModel = requireOption(objectrepository, 'UserModel')
 
     return function(req, res, next) {
-        const email = req.body.email
         console.log('auth - forgot: TRY SEND EMAIL (' + email + ')')
 
-        UserModel.findOne(
-            { email: email, loginType: "Simple" },
-            function(err, user) {
-                if (user) {
-                    let newPassword = generator.generate({
-                        length: 20,
-                        numbers: true
-                    })
+        if(typeof res.locals.foundUser === 'undefined'){
+            res.locals.error = 'Not valid email'
+            return next();
+        }
 
-                    console.log('auth - forgot: SEND NEW PASSWORD EMAIL (' + newPassword + ')')
+        let foundUser = res.locals.foundUser
 
-                    user.password = newPassword
-                    user.save()
+        let newPassword = generator.generate({
+            length: 20,
+            numbers: true
+        })
 
-                    sendEmail(user)
+        foundUser.password = newPassword
+        foundUser.save((err => {
+            if(err)
+                return next(err)
 
-                    return res.redirect('/')
-                } else {
-                    console.log('auth - forgot: EMAIL NOT EXISTS')
+            sendEmail(foundUser)
+            return res.redirect('/')
+        }))
 
-                    res.locals.error = 'Email not found :('
-                    return next()
-                }
-            })
+        console.log('auth - forgot: SEND NEW PASSWORD EMAIL (' + newPassword + ')')
     }
 }

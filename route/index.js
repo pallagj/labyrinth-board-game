@@ -1,8 +1,8 @@
 //Auth
 const authMW = require('../middleware/auth/authMW')
-const checkGoogleLoginMW = require('../middleware/auth/checkGoogleLoginMW')
-const checkSimpleLoginMW = require('../middleware/auth/checkSimpleLoginMW')
-const logoutMW = require('../middleware/auth/logoutMW')
+const checkGoogleLoginMW = require('../middleware/auth/googleLogin')
+const checkSimpleLoginMW = require('../middleware/auth/simpleLoginMW')
+const logoutMW = require('../middleware/auth/logOutMW')
 const registerMW = require('../middleware/auth/registerMW')
 const forgotPasswordMW = require('../middleware/auth/forgotPasswordMW')
 const editUserMW = require('../middleware/user/editUserMW')
@@ -20,7 +20,7 @@ module.exports = function(app) {
     app.post('/upload/profilepicture',  authMW(objRepo), uploadProfileImageMW(objRepo, app.get('rootDir')), renderMW(objRepo, 'profilesettings'));
 
     //User main pages [main]
-    app.use('/friends', authMW(objRepo), renderMW(objRepo, 'friends'))
+    app.use('/friends', authMW(objRepo, 'loggedIn'), renderMW(objRepo, 'friends'))
     app.use('/game', authMW(objRepo), renderMW(objRepo, 'game'))
     app.use('/gameteams', authMW(objRepo), renderMW(objRepo, 'gameteams'))
     app.use('/home', authMW(objRepo), renderMW(objRepo, 'home'))

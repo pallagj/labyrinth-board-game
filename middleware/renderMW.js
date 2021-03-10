@@ -7,8 +7,7 @@ module.exports = function(objectrepository, viewName) {
     return function(req, res) {
         res.locals.query = req.query
         res.locals.url   = req.originalUrl
-        res.locals.user  = req.session.user
-
+ó
         res.render(viewName)
     }
 }

@@ -43,6 +43,8 @@ module.exports = function(objectrepository) {
                 newUser.givenName = req.body.givenName
                 newUser.birth = req.body.birth
 
+
+
                 newUser.save(err => {
                     if(err) return next(err)
 
