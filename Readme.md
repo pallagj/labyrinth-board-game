@@ -1,6 +1,5 @@
-# Labyrinth
-A labirintus társasjáték nagyszerű lehetőséget nyújt több ember számára,
-hogy társasozzanak, akár a karantén idején is. 
+# Labyrinth - Express - Node.js
+Labirintus társasjátékot valósítom meg mind szerver és mind kliens oldalon.
 
 ## Szabály
 A társasjáték szabályához nyisd meg a következő weboldalt:
