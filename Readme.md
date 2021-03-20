@@ -1,4 +1,5 @@
-# Labyrinth - Express - Node.js
+# Labyrinth
+## Express - Node.js
 Labirintus társasjátékot valósítom meg mind szerver és mind kliens oldalon.
 
 ## Szabály
