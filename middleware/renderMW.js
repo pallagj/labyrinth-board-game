@@ -7,7 +7,7 @@ module.exports = function(objectrepository, viewName) {
     return function(req, res) {
         res.locals.query = req.query
         res.locals.url   = req.originalUrl
-ó
+
         res.render(viewName)
     }
 }

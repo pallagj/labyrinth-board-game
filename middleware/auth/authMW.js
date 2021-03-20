@@ -18,7 +18,7 @@ module.exports = function(objectrepository, nextIf) {
             if(user){
                 console.log('auth - check: LOGGED IN')
                 res.locals.user = user;
-                return nextIf === 'loggedIn' ? next() : res.redirect('/')
+                return nextIf === 'loggedIn' ? next() : res.redirect('/home')
             }
 
             console.log('auth - check: NOT FOUND ID ('+req.session.userId+')')

@@ -13,14 +13,14 @@ module.exports = function(objectrepository) {
         let googleUser = res.locals.googleUser;
         let foundUser  = res.locals.foundUser
 
-        if(typeof foundUser === 'undefined' && foundUser.userId){
-//TODO SESSION
+        if(typeof foundUser !== 'undefined' && foundUser.userId){
+            //TODO SESSION
         } else {
-
+            //TODO
         }
 
 
-
+        /*
         UserModel.findOne({ userId: googleUser.userId}, (err, user) => {
             if (user) {
                 console.log('auth - googleLogin: USER IS ALREADY EXISTS')
@@ -36,7 +36,7 @@ module.exports = function(objectrepository) {
             req.session.login = true
             req.session.user = user
             return req.session.save(err => res.redirect('/home'))
-        })
+        })*/
 
     }
 }

@@ -16,14 +16,14 @@ module.exports = function(objectrepository) {
             return next();
         }
 
-        let email = isForm ? req.body.email : res.locals.googleUser
+        let email = isForm ? req.body.email : res.locals.googleUser.email
 
         UserModel.findOne({email: email}, (err, user) => {
             if(user){
-                console.log('auth - find: EMAIL FOUND ('+user.email+')')
+                console.log('auth - find: EMAIL FOUND (' + email + ')')
                 res.locals.foundUser = user
             } else {
-                console.log('auth - find: EMAIL NOT FOUND ('+user.email+')')
+                console.log('auth - find: EMAIL NOT FOUND (' + email + ')')
             }
 
             return next();
