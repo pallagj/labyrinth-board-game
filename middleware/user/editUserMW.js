@@ -8,39 +8,25 @@ module.exports = function(objectrepository) {
     const UserModel = requireOption(objectrepository, 'UserModel')
 
     return function(req, res, next) {
-        console.log('auth - edituser: TRY edituser (' + req.body.email + ', ' + req.body.password + ')')
-
-        if(typeof req.body.email === 'undefined'
-            || invalidPassword(req, res)
-            || typeof req.body.familyName === 'undefined'
-            || typeof req.body.givenName === 'undefined'
-        ) {
-            console.log('auth - edituser: UNDEFINED MANDATORY INPUT')
-
-            res.locals.error = res.locals.error ? res.locals.error : 'Missing registration information!'
-            return next()
+        if(typeof res.locals.simpleUser === 'undefined' || typeof res.locals.foundUser === 'undefined'){
+            return next();
         }
 
-        UserModel.findOne({email: req.session.user.email}, (err, user) => {
+        let sUser = res.locals.simpleUser
+        let fUser = res.locals.foundUser
 
-            user.password = req.body.password
-            user.email = req.body.email
-            user.name = req.body.givenName + ' ' + req.body.familyName
-            user.gender = req.body.gender
-            user.familyName = req.body.familyName
-            user.givenName = req.body.givenName
-            user.birth = req.body.birth
+        fUser.email = sUser.email;
+        fUser.password = sUser.password;
 
-            user.save(err => {
-                if(err) return next(err)
+        fUser.name = sUser.name;
+        fUser.familyName = sUser.familyName;
+        fUser.givenName = sUser.givenName;
+        fUser.gender = sUser.gender;
+        fUser.birth = sUser.birth;
 
-                //Successful
-                req.session.login = true
-                req.session.user = user
-                return req.session.save(err => res.redirect('/home'))
-            })
-        })
+        res.locals.userToSave = fUser
 
+        next();
     }
 }
 

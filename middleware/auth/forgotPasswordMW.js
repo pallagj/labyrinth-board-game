@@ -8,7 +8,6 @@ module.exports = function(objectrepository) {
     const UserModel = requireOption(objectrepository, 'UserModel')
 
     return function(req, res, next) {
-        console.log('auth - forgot: TRY SEND EMAIL (' + email + ')')
 
         if(typeof res.locals.foundUser === 'undefined'){
             res.locals.error = 'Not valid email'
@@ -16,6 +15,7 @@ module.exports = function(objectrepository) {
         }
 
         let foundUser = res.locals.foundUser
+        console.log('auth - forgot: TRY SEND EMAIL (' + foundUser.email + ')')
 
         let newPassword = generator.generate({
             length: 20,

@@ -1,6 +1,6 @@
-var nodemailer = require('nodemailer')
+let nodemailer = require('nodemailer')
 
-var transporter = nodemailer.createTransport({
+let transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
         user: 'labyrinthboardgame@gmail.com',
@@ -8,9 +8,12 @@ var transporter = nodemailer.createTransport({
     }
 })
 
+
 function sendEmail(user) {
     let target = user.email
     let password = user.password
+
+    let logoURL = 'https://lh3.googleusercontent.com/pw/ACtC-3ev_Ovf8QNeYYIBwbXu1xiXbBlIyPPuwB82YdEZhHsQtjBsNEXvjfNYouIZs9Bli71HsOkfnJRPe12Wqb6XxLXQEuK1isOLsVMUpdHVrwevV_HxLjXOfbG04yoH0IaWlK1FAIRFxTndp6izFAhTPaI=w82-h80-no?authuser=0'
 
     let mailOptions = {
         from: 'labyrinthboardgame@gmail.com',
@@ -38,7 +41,7 @@ function sendEmail(user) {
             <p>Password: <b>${password}</b></p> 
             <p>Please change your password immediately after logging in. </p>  
             
-            <img class="mb-4" src="https://lh3.googleusercontent.com/a-/AOh14GgHjxON3TvMNBVLPSpZOZz8B-w6iu4nKLDOL-RR=s40" alt="" width="72" height="72">
+            <img class="mb-4" src="${logoURL}" alt="" width="72" height="72">
             <p>
                 <b>Thanks, </b><br>
                 LabyritnhBoardGame team

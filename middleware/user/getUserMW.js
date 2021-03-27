@@ -27,6 +27,8 @@ module.exports = function(objectrepository) {
             givenName: req.body.givenName,
             birth: req.body.birth
         })
+
+        next();
     }
 }
 

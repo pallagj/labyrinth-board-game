@@ -25,6 +25,7 @@ const findUserMW = require('../middleware/user/findUserMW')
 const getUserMW = require('../middleware/user/getUserMW')
 const registerMW = require('../middleware/user/registerMW')
 const saveUserMW = require('../middleware/user/saveUserMW')
+const delUserMW = require('../middleware/user/delUserMW')
 const uploadProfileImageMW = require('../middleware/user/uploadProfileImageMW')
 
 const renderMW = require('../middleware/renderMW')
@@ -72,10 +73,10 @@ module.exports = function(app) {
         uploadProfileImageMW(objRepo, app.get('rootDir')),
         renderMW(objRepo, 'profilesettings'));
 
-    app.use('/friend',
+    app.use('/friends',
         authMW(objRepo, 'loggedIn'),
         getFriendsMW(objRepo),
-        renderMW(objRepo, 'friend'))
+        renderMW(objRepo, 'friends'))
 
     app.use('/game',
         authMW(objRepo, 'loggedIn'),
@@ -99,18 +100,29 @@ module.exports = function(app) {
         getUserMW(objRepo),
         findUserMW(objRepo),
         editUserMW(objRepo),
+        saveUserMW(objRepo),
         renderMW(objRepo, 'profilesettings'))
 
     //Authentication [auth]
+    app.use('/deleteuser',
+        authMW(objRepo, 'loggedIn'),
+        delUserMW(objRepo),
+        logoutMW(objRepo),
+        renderMW(objRepo, 'index'))
+
     app.use('/logout',
         authMW(objRepo, 'loggedIn'),
         logoutMW(objRepo),
         renderMW(objRepo, 'index'))
 
-    app.use('/forgotpassword',
+    app.post('/forgotpassword',
         authMW(objRepo, 'loggedOut'),
         findUserMW(objRepo),
         forgotPasswordMW(objRepo),
+        renderMW(objRepo, 'forgotPassword'))
+
+    app.get('/forgotpassword',
+        authMW(objRepo, 'loggedOut'),
         renderMW(objRepo, 'forgotPassword'))
 
     app.post('/register',
@@ -131,7 +143,7 @@ module.exports = function(app) {
         findUserMW(objRepo),
         googleLoginMW(objRepo),
         saveUserMW(objRepo),
-        renderMW(objRepo, 'home'))
+        renderMW(objRepo, 'index'))
 
     app.post('/',
         authMW(objRepo, 'loggedOut'),

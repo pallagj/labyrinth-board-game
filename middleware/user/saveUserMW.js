@@ -7,17 +7,17 @@ module.exports = function(objectrepository) {
     const UserModel = requireOption(objectrepository, 'UserModel')
 
     return function(req, res, next) {
-        if(typeof res.locals.user === 'undefined'){
+        if(typeof res.locals.userToSave === 'undefined'){
             return next()
         }
 
-        let user = res.locals.user
-        user.save(err => {
+        let userToSave = res.locals.userToSave
+        userToSave.save(err => {
             if(err)
                 return next(err)
 
             //Successful
-            req.session.userId = user._id
+            req.session.userId = userToSave._id
             return req.session.save(err => res.redirect('/home'))
         })
     }
