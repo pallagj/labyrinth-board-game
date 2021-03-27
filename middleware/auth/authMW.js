@@ -1,17 +1,28 @@
 /**
- * If the user is authenticated, call next, otherwise redirect to /
+ * If the user is authenticated, save user to locals.user and call next, otherwise redirect to /
  */
 const requireOption = require('../requireOption')
 
-module.exports = function(objectrepository) {
+module.exports = function(objectrepository, nextIf) {
+    const UserModel = requireOption(objectrepository, 'UserModel')
+
     return function(req, res, next) {
-        if (typeof req.session.login === 'undefined' || req.session.login !== true) {
-            console.log('auth - check: FAIL')
-            return res.redirect('/')
+        console.log('auth - check - NEXT (' + nextIf + ')')
+
+        if (typeof req.session.userId === 'undefined') {
+            console.log('auth - check:  NOT LOGGED IN')
+            return nextIf === 'loggedIn' ? res.redirect('/') :  next()
         }
 
-        console.log('auth - check: OK')
+        UserModel.findOne({_id: req.session.userId}, (err, user) => {
+            if(user){
+                console.log('auth - check: LOGGED IN')
+                res.locals.user = user;
+                return nextIf === 'loggedIn' ? next() : res.redirect('/home')
+            }
 
-        next()
+            console.log('auth - check: NOT FOUND ID ('+req.session.userId+')')
+            return nextIf === 'loggedIn' ? res.redirect('/') :  next()
+        })
     }
 }

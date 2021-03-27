@@ -11,7 +11,7 @@ function fileChange(){
         req.open("POST", '/upload/profilepicture');
         req.send(formData);
         req.onload = function() {
-            document.write(req.responseText);
+            location.reload();
         };
     }
 }
