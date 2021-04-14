@@ -155,4 +155,8 @@ module.exports = function(app) {
     app.get('/',
         authMW(objRepo, 'loggedOut'),
         renderMW(objRepo, 'index'))
+
+    app.get(/.*/,
+        renderMW(objRepo, 'notfound')
+        )
 }
