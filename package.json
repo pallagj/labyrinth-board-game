@@ -9,6 +9,7 @@
     "express-session": "^1.17.1",
     "generate-password": "^1.6.0",
     "google-auth-library": "^7.0.2",
+    "jquery": "^3.6.0",
     "mongoose": "^5.11.19",
     "nodemailer": "^6.5.0"
   },
