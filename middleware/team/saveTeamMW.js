@@ -1,4 +1,5 @@
 /**
+ * This will save the new or edited team in the db
  */
 const requireOption = require("../requireOption");
 
@@ -8,13 +9,13 @@ module.exports = function (objectrepository) {
 
     return function (req, res, next) {
         if(
-            req.body.name === 'undefined' ||
-            req.body.description === 'undefined' ||
+            typeof req.body.name === 'undefined' ||
+            typeof req.body.description === 'undefined' ||
 
-            req.body.yellowEmail === 'undefined' ||
-            req.body.redEmail === 'undefined' ||
-            req.body.blueEmail === 'undefined' ||
-            req.body.greenEmail === 'undefined'
+            typeof req.body.yellowEmail === 'undefined' ||
+            typeof req.body.redEmail === 'undefined' ||
+            typeof req.body.blueEmail === 'undefined' ||
+            typeof req.body.greenEmail === 'undefined'
         ){
             return next();
         }
@@ -63,12 +64,6 @@ module.exports = function (objectrepository) {
                 team["players"][i]["userId"] = user._id
                 team["players"][i]["color"] = player.color
             }
-
-            /*players.forEach(player => {
-                let user = users.find(user => user.email === player.email)
-                team["players"].push({ userId: user._id, color: user.color})
-            })*/
-
 
             console.log(team['players'])
 

@@ -1,4 +1,5 @@
 /**
+ * Verifies the google login
  */
 const requireOption = require('../requireOption')
 

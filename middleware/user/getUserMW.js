@@ -1,4 +1,5 @@
 /**
+ *  It creats a simpleUser variable from the html form
  */
 const invalidPassword = require('../invalidPassword')
 const requireOption = require('../requireOption')

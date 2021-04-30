@@ -60,11 +60,7 @@ module.exports = function(app) {
         })
 
 
-    app.get('/team/new',
-        authMW(objRepo, 'loggedIn'),
-        renderMW(objRepo, 'teameditnew'))
-
-    app.post('/team/new',
+    app.use('/team/new',
         authMW(objRepo, 'loggedIn'),
         saveTeamMW(objRepo),
         renderMW(objRepo, 'teameditnew'))

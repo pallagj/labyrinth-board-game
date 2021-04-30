@@ -1,3 +1,7 @@
+/**
+ * Check password enough long and difficult
+ */
+
 module.exports = function invalidPassword(req, res){
     let password = req.body.password
 

@@ -1,4 +1,5 @@
 /**
+ * Allows easy login
  */
 const requireOption = require("../requireOption");
 

@@ -1,4 +1,5 @@
 /**
+ * This will allow to sign in with google
  */
 const requireOption = require('../requireOption')
 

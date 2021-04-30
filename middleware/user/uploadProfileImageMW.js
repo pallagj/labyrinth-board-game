@@ -1,4 +1,5 @@
 /**
+ * This will receive the profile picture image, after save and assigns to the user by url
  */
 
 const requireOption = require('../requireOption')

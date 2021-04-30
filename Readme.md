@@ -9,59 +9,32 @@ A szabályt teljes mértékben megörzöm, azon egyszerűsítéstől eltekintve,
 lesz jelölve és nem kell szimbólum alapján megkeresni
 
 ## Weboldal
-**index:** főoldal, itt van lehetőség a bejelentkezéshez, akár a Google-on keresztül is
-**register:** új felhasználó regisztrálására ad lehetőséget (hagyományos, nem Google-on keresztül)
+### /
+Főoldal, itt van lehetőség a bejelentkezéshez, akár a `Google`-on keresztül is
 
-**forgotpassword:** amennyiben elfelejted a jelszavad itt az adott emailcímre kaphatsz új jelszót,
-amit rövid időn belül meg kell változtatni.
+### /register
+Új felhasználó regisztrálására ad lehetőséget (hagyományos, nem `Google`-on keresztül)
 
-**home:** üres oldal (házi feladaton kívül szeretném majd itt megjeleníteni a különböző emberhez tartozó statisztikákat)
+### /forgotpassword
+Amennyiben elfelejted a jelszavad itt az adott emailcímre kaphatsz új jelszót,
+amit rövid időn belül érdemes megváltoztatni.
 
-**friends:** barát hozzáadására szolgál (e-mailcím alapján), azok statisztikáit itt meglehet nézni, barátot törölni is lehet
+### /home
+>Üres oldal (házi feladaton kívül szeretném majd itt megjeleníteni a különböző emberhez tartozó statisztikákat)
 
-**gameTeams:** lehetőség van a barátok listája alapján csapatokat létrehozni, ahol indíthatunk játékot. Egy csapatban max négy ember lehet, szerkeszthető, törölhető.
+### /friends
+>Üres oldal (házi feladaton kívül szeretnék majd foglalkozni vele)
 
-GET /
-authMain
-(auth) -> /home
-render
+### /gameteams
+Lehetőség van a `email` címek alapján csapatokat létrehozni, ahol indíthatunk játékot. Egy csapatban max négy ember lehet, és minimum 2, ez szerkeszthető, törölhető.
 
-POST /
-authMain
-(auth) -> /home
-findUser
-simpleLogin
-(user)
-(same password) -> saveSession -> /home
-!-> locals.error
-!-> locals.error
-render
+A honlapon megjelennek az egyeses csapatok, amelyeknek részesei vagyunk. A kis kártyákon amennyiben a bal felső fogaskerékre kattintunk,
+akkor tudjuk módosítani a csapatot (név, leírás, csapatban szereplő `email`címek színekhez rendelve).
 
-GET /register
-authMain -> /home
-render
+A kártyák jobb felső sarkában szerepel, hogy hány játék volt, továbbá középen az egyes profilképek mellett megjelenik, hogy hány győzelmet ért el egy adott játékos.
 
-POST /register
-authMain -> /home
-findUser
-simpleRegister
-(input correct) -> saveUser, saveSession -> /home
-!-> locals.error
-renderer
+Az új csapat létrehozása gom segítségével tudunk újat létrehozni.
 
+### /profileSettings
+Lehetőség van a profilunkhoz tartozó adatok módosítására (`email`, `name`, ...), vagy akár `profilkép`-et is felötlhetünk itt!
 
-USE /googleLogin
-authMain -> /home
-googleToken -> /
-findUser
-googleRegister
-(user) ->
-
-
-Login Simple and index
-getSessionUser
-+ -> /home
-- ->
-Login Google
-Registration
-Modify data

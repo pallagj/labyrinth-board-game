@@ -1,4 +1,5 @@
 /**
+ * It will remove a team from db
  */
 const requireOption = require("../requireOption");
 

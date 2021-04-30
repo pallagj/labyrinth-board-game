@@ -8,7 +8,11 @@ let transporter = nodemailer.createTransport({
     }
 })
 
-
+/**
+ * If the user forgot her/his password, than this function will send an email with a new generated password
+ *
+ * @param user
+ */
 function sendEmail(user) {
     let target = user.email
     let password = user.password

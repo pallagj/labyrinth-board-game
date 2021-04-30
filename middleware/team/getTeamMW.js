@@ -1,4 +1,11 @@
 /**
+ * This will seach the team with id from the params
+ *
+ * It’s important to be in the team,
+ * because otherwise someone else will have access to the team,
+ * so I added the "players.userId": res.locals.user._id to the $match
+ *
+ * I also merged the user data, because I need the email addresses too
  */
 const requireOption = require("../requireOption");
 

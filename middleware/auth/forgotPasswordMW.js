@@ -1,4 +1,5 @@
 /**
+ * This will send the email, if the user forgot his/her password
  */
 const requireOption = require('../requireOption')
 const sendEmail = require('../sendEmail')

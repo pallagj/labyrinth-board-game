@@ -1,4 +1,11 @@
 /**
+ * This will seach all the teams to the user
+ *
+ * It’s important to be in the team all team,
+ * because otherwise someone else will have access to the team,
+ * so I added the "players.userId": res.locals.user._id to the $match
+ *
+ * I also merged the user data, because I need to render the profile pictures in every team cards with number of victories
  */
 const requireOption = require("../requireOption");
 

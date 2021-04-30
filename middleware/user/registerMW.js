@@ -1,4 +1,5 @@
 /**
+ * Registration
  */
 
 const requireOption = require('../requireOption')
