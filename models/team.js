@@ -3,23 +3,31 @@ const db = require('../config/db')
 
 const Team = db.model('Team', {
     name: String,
+    description: String,
 
-    _red: {
-        type: Schema.Types.ObjectId,
-        ref: 'User'
+    numberOfGames: {
+        type: Number,
+        default: 0
     },
-    _blue: {
-        type: Schema.Types.ObjectId,
-        ref: 'User'
-    },
-    _green: {
-        type: Schema.Types.ObjectId,
-        ref: 'User'
-    },
-    _yellow: {
-        type: Schema.Types.ObjectId,
-        ref: 'User'
-    }
+
+    players: [
+        {
+            userId: {
+                type: Schema.Types.ObjectId,
+                ref: 'User'
+            },
+
+           color: {
+                type: String,
+                enum: ['yellow', 'red', 'blue', 'green']
+            },
+
+            victories: {
+                type: Number,
+                default: 0
+            },
+        }
+    ],
 })
 
 module.exports = Team

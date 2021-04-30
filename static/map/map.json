@@ -1,0 +1,117 @@
+[
+  [
+    {
+      "type": "curve",
+      "orientation": 1,
+      "home": "yellow",
+      "target": true
+    },
+    null,
+    {
+      "type": "three-way",
+      "orientation": 1,
+      "target": true
+    },
+    null,
+    {
+      "type": "three-way",
+      "orientation": 1,
+      "target": true
+    },
+    null,
+    {
+      "type": "curve",
+      "orientation": 2,
+      "home": "red",
+      "target": true
+    }
+  ],
+  [
+    null, null, null, null, null, null, null
+  ],
+  [
+    {
+      "type": "three-way",
+      "orientation": 0,
+      "target": true
+    },
+    null,
+    {
+      "type": "three-way",
+      "orientation": 0,
+      "target": true
+    },
+    null,
+    {
+      "type": "three-way",
+      "orientation": 1,
+      "target": true
+    },
+    null,
+    {
+      "type": "three-way",
+      "orientation": 2,
+      "home": "red",
+      "target": true
+    }
+  ],
+  [
+    null, null, null, null, null, null, null
+  ],
+  [
+    {
+      "type": "three-way",
+      "orientation": 0,
+      "target": true
+    },
+    null,
+    {
+      "type": "three-way",
+      "orientation": 3,
+      "target": true
+    },
+    null,
+    {
+      "type": "three-way",
+      "orientation": 2,
+      "target": true
+    },
+    null,
+    {
+      "type": "three-way",
+      "orientation": 2,
+      "home": "red",
+      "target": true
+    }
+  ],
+  [
+    null, null, null, null, null, null, null
+  ],
+  [
+    {
+      "type": "curve",
+      "orientation": 0,
+      "home": "green",
+      "target": true
+    },
+    null,
+    {
+      "type": "three-way",
+      "orientation": 3,
+      "target": true
+    },
+    null,
+    {
+      "type": "three-way",
+      "orientation": 3,
+      "target": true
+    },
+    null,
+    {
+      "type": "curve",
+      "orientation": 3,
+      "home": "blue",
+      "target": true
+    }
+  ]
+]

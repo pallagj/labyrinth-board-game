@@ -6,7 +6,15 @@ module.exports = function (objectrepository) {
     const UserModel = requireOption(objectrepository, "UserModel");
 
     return function (req, res, next) {
-       /* TODO */
-        next();
+        if(res.locals.team === 'undefined'){
+            return next()
+        }
+
+        res.locals.team.remove(err => {
+            if(err)
+                next(err)
+
+            return res.redirect('/gameteams')
+        })
     };
 };

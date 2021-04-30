@@ -4,50 +4,59 @@
     <%- include('common/navbar') -%>
 
     <main>
-        <table class="table table-borderless">
-            <thead>
-            <tr>
-                <th scope="col">Team name</th>
-                <th scope="col">Number of games</th>
-                <th scope="col"></th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <th scope="row">BestFriends</th>
-                <td>34</td>
-                <td>
-                    <button class="btn btn-sm btn-info"><b>ℹ</b></button>
-                    <button class="btn btn-sm btn-warning"><b>✏</b></button>
-                    <button class="btn btn-sm btn-danger"><b>🗑</b></button>
-                    <button class="btn btn-sm btn-danger"><b>▶</b></button>
-                </td>
-            </tr>
-            <tr>
-                <th scope="row">BirdClub</th>
-                <td>12</td>
-                <td>
-                    <button class="btn btn-sm btn-info"><b>ℹ</b></button>
-                    <button class="btn btn-sm btn-warning"><b>✏</b></button>
-                    <button class="btn btn-sm btn-danger"><b>🗑</b></button>
-                    <button class="btn btn-sm btn-danger"><b>▶</b></button>
-                </td>
-            </tr>
-            <tr>
-                <th scope="row">WorkTeam</th>
-                <td>6</td>
-                <td>
-                    <button class="btn btn-sm btn-info"><b>ℹ</b></button>
-                    <button class="btn btn-sm btn-warning disabled"><b>✏</b></button>
-                    <button class="btn btn-sm btn-danger"><b>🗑</b></button>
-                    <button class="btn btn-sm btn-danger"><b>▶</b></button>
-                </td>
-            </tr>
-            </tbody>
-        </table>
+        <% for(var i=0; i < Math.ceil(teams.length / 3); i++){ %>
+            <div class="row m-2">
+                <% for(var j=0; j<Math.min(3, teams.length - i * 3); j++){ %>
+                    <% let team = teams[i*3 + j] %>
+                    <div class="col-sm-4">
+                        <div class="card">
+                            <div class="card-header d-flex justify-content-between">
+                                <a href='team/edit/<%= team._id%>'>
+                                    <img src = "images/settings.svg" alt="settings"/>
+                                </a>
+
+                                <h5><%= team.name %></h5>
+                                <p><%= team.numberOfGames %></p>
+                            </div>
+
+                            <div class="card-body">
+                                <p class="card-text"> <%= team.description %> </p>
+
+                                <p>
+                                    <% for(var k=0; k<team.players.length; k++) { %>
+                                        <%
+                                            let player = team.players[k]
+                                            let playerData = team.playersData[k]
+
+                                            if(typeof playerData.pictureUrl !== 'undefined')
+                                                pictureUrl = playerData.pictureUrl
+                                            else
+                                                pictureUrl = '/images/darklogo.svg'
+                                        %>
+
+                                        <img src="<%= pictureUrl %>" width="30" height="30" class="rounded-circle m-1" alt="<%= playerData.name %>">
+                                        <b><%= player.victories %></b>
+                                    <% } %>
+                                </p>
+                                <a type="button" class="btn btn-primary">
+                                    <img src = "images/play.svg"/>
+                                    Play
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                <% } %>
+            </div>
+        <% } %>
+
         <div class="form-signin mt-5">
-            <button class="w-100 p-2 mt-2 btn btn-lg btn-primary btn-block" type="submit">Create new team</button>
+            <a href="/team/new">
+                <button class="w-100 p-2 mt-2 btn btn-lg btn-primary btn-block" type="submit">
+                    Create new team
+                </button>
+            </a>
         </div>
+
     </main>
 </div>
 

@@ -6,12 +6,6 @@ const googleValidateMW = require('../middleware/auth/googleValidateMW')
 const logoutMW = require('../middleware/auth/logOutMW')
 const simpleLoginMW = require('../middleware/auth/simpleLoginMW')
 
-//Friend
-const delFriendMW = require('../middleware/friend/delFriendMW')
-const getFriendMW = require('../middleware/friend/getFriendMW')
-const getFriendsMW = require('../middleware/friend/getFriendsMW')
-const saveFriendMW = require('../middleware/friend/saveFriendMW')
-
 
 //Team
 const delTeamMW = require('../middleware/Team/delTeamMW')
@@ -31,41 +25,66 @@ const uploadProfileImageMW = require('../middleware/user/uploadProfileImageMW')
 const renderMW = require('../middleware/renderMW')
 
 const UserModel = require('../models/user')
+const TeamModel = require('../models/team')
+const GameModel = require('../models/game')
 
 module.exports = function(app) {
     const objRepo = {
-        UserModel: UserModel
+        UserModel: UserModel,
+        TeamModel: TeamModel,
+        GameModel: GameModel
     }
 
-    app.use('/team/new',
+    let response = null, i = 0
+    setInterval(t=>{
+        if(response !== null){
+            response.write(`data: ${i}\n\n`)
+            i++
+        }
+    }, 3000)
+
+
+    app.get('/event',
+        (req, res) => {
+            console.log('Got /events');
+            res.set({
+                'Cache-Control': 'no-cache',
+                'Content-Type': 'text/event-stream',
+                'Connection': 'keep-alive'
+            });
+            res.flushHeaders();
+
+            // Tell the client to retry every 10 seconds if connectivity is lost
+            res.write('retry: 10000\n\n');
+            response = res
+        })
+
+
+    app.get('/team/new',
+        authMW(objRepo, 'loggedIn'),
+        renderMW(objRepo, 'teameditnew'))
+
+    app.post('/team/new',
         authMW(objRepo, 'loggedIn'),
         saveTeamMW(objRepo),
-        renderMW(objRepo, 'teamedit'))
+        renderMW(objRepo, 'teameditnew'))
 
-    app.use('/team/edit/:teamid',
+    app.post('/team/edit/:teamid',
         authMW(objRepo, 'loggedIn'),
         getTeamMW(objRepo),
         saveTeamMW(objRepo),
-        renderMW(objRepo, 'teamedit'))
+        renderMW(objRepo, 'teameditnew'))
+
+    app.get('/team/edit/:teamid',
+        authMW(objRepo, 'loggedIn'),
+        getTeamMW(objRepo),
+        renderMW(objRepo, 'teameditnew'))
+
     app.use('/team/del/:teamid',
+        authMW(objRepo, 'loggedIn'),
         getTeamMW(objRepo),
         delTeamMW(objRepo),
         renderMW(objRepo, 'teamedit'))
-
-    app.use('/friend/new',
-        authMW(objRepo, 'loggedIn'),
-        saveFriendMW(objRepo),
-        renderMW(objRepo, 'friendedit'))
-
-    app.use('/friend/edit/:friendid',
-        authMW(objRepo, 'loggedIn'),
-        getFriendMW(objRepo),
-        saveFriendMW(objRepo),
-        renderMW(objRepo, 'friendedit'))
-    app.use('/friend/del/:friendid',
-        getFriendMW(objRepo),
-        delFriendMW(objRepo),
-        renderMW(objRepo, 'friendedit'))
 
 
     app.post('/upload/profilepicture',
@@ -73,10 +92,6 @@ module.exports = function(app) {
         uploadProfileImageMW(objRepo, app.get('rootDir')),
         renderMW(objRepo, 'profilesettings'));
 
-    app.use('/friends',
-        authMW(objRepo, 'loggedIn'),
-        getFriendsMW(objRepo),
-        renderMW(objRepo, 'friends'))
 
     app.use('/game',
         authMW(objRepo, 'loggedIn'),
@@ -102,6 +117,10 @@ module.exports = function(app) {
         editUserMW(objRepo),
         saveUserMW(objRepo),
         renderMW(objRepo, 'profilesettings'))
+
+    app.use('/friends',
+        authMW(objRepo, 'loggedIn'),
+        renderMW(objRepo, 'friends'))
 
     //Authentication [auth]
     app.use('/deleteuser',
@@ -157,6 +176,6 @@ module.exports = function(app) {
         renderMW(objRepo, 'index'))
 
     app.get(/.*/,
-        renderMW(objRepo, 'notfound')
-        )
+        renderMW(objRepo, 'notfound'))
+
 }

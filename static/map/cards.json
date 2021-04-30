@@ -1,0 +1,22 @@
+[
+  {
+    "amount": 10,
+    "type": "curve",
+    "target": false
+  },
+  {
+    "amount": 6,
+    "type": "curve",
+    "target": true
+  },
+  {
+    "amount": 12,
+    "type": "straight",
+    "target": false
+  },
+  {
+    "amount": 6,
+    "type": "three-way",
+    "target": true
+  }
+]

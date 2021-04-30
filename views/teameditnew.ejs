@@ -1,0 +1,59 @@
+<%
+let hasTeam  = (typeof teamData !== 'undefined' && typeof team !== 'undefined')
+let btnText   = hasTeam ? 'Save' : 'Create'
+
+let emails = {
+    yellow: '', red: '', blue: '', green: ''
+}
+
+if(hasTeam){
+    for(var i=0; i<teamData.players.length; i++){
+        let player = teamData.players[i]
+        let playerData = teamData.playersData[i]
+
+        emails[player.color] = playerData.email
+    }
+}
+
+
+//Get param info
+function info(param){
+    return hasTeam ? teamData[param] : ''
+}
+
+%>
+
+<%- include('common/header') -%>
+
+<div class="container">
+    <%- include('common/navbar') -%>
+
+    <main>
+        <form class="form-signin" method="POST">
+            <!-- INPUTS -->
+            <input type="text" id="name" class="form-control" placeholder="Team name" required="" autofocus="" name="name" value="<%=info('name')%>">
+            <input type="text" id="description" class="form-control" placeholder="Team description" autofocus="" name="description" value="<%=info('description')%>">
+
+            <br>
+
+            <input type="email" id="yellowEmail" class="form-control" placeholder="Yellow email address" autofocus="" name="yellowEmail" value="<%=emails['yellow']%>">
+            <input type="email" id="redEmail" class="form-control" placeholder="Red email address" autofocus="" name="redEmail" value="<%=emails['red']%>">
+            <input type="email" id="blueEmail" class="form-control" placeholder="Blue email address" autofocus="" name="blueEmail" value="<%=emails['blue']%>">
+            <input type="email" id="greenEmail" class="form-control" placeholder="Green email address" autofocus="" name="greenEmail" value="<%=emails['green']%>">
+
+
+            <%- include('common/error') -%>
+            <br>
+            <!-- BUTTONS -->
+            <button class="btn btn-lg btn-primary btn-block" type="submit"><%=btnText%></button>
+
+            <% if (hasTeam) { %>
+                <a class="btn btn-lg btn-danger btn-block" href="/team/del/<%=team._id%>">Delete</a>
+            <% } %>
+
+            <a class="btn btn-lg btn-secondary btn-block" type="submit" href="/gameteams">Back</a>
+        </form>
+    </main>
+</div>
+
+<%- include('common/footer') -%>
