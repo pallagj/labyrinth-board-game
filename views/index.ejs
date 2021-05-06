@@ -1,14 +1,5 @@
 <%- include('common/header') -%>
 
-<script>
-    const source = new EventSource('/event');
-
-    source.addEventListener('message', message => {
-        console.log('Got', message);
-        console.log('Data', event.data);
-    });
-</script>
-
 <form class="form-signin" method="POST">
     <img class="mb-4" src="/images/darklogo.svg" alt="" width="72" height="72">
     <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>

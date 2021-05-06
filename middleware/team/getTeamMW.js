@@ -35,6 +35,7 @@ module.exports = function (objectrepository) {
 
             (err, teamData) => {
                 if(err || !teamData || teamData.length === 0) {
+                    console.log("HIBAAAAAAA")
                     return next(err);
                 }
 

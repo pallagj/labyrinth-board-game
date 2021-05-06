@@ -7,14 +7,25 @@ const Game = db.model('Game',  {
         enum: ['yellow', 'red', 'blue', 'green']
     },
 
-    needPush: Boolean,
+    needPush: {
+        type: Boolean,
+        default: true
+    },
 
-    disabledPush: Number,
+    disabledPush: {
+        type: Number,
+        default: -1
+    },
 
     table: [{
-        id: Number,
+        cardId: Number,
         orientation: Number
     }],
+
+    plusCard: {
+        cardId: Number,
+        orientation: Number
+    },
 
     players: [
         {
@@ -22,8 +33,9 @@ const Game = db.model('Game',  {
                 type: String,
                 enum: ['yellow', 'red', 'blue', 'green']
             },
+            position: Number,
 
-            ranking: Number,
+            ranking: {type: Number, default: -1},
             targets: [Number]
         }
     ]

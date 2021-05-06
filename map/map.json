@@ -51,7 +51,6 @@
     {
       "type": "three-way",
       "orientation": 2,
-      "home": "red",
       "target": true
     }
   ],
@@ -80,7 +79,6 @@
     {
       "type": "three-way",
       "orientation": 2,
-      "home": "red",
       "target": true
     }
   ],

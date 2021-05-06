@@ -1,12 +1,169 @@
 <%- include('common/header') -%>
 
-<div class="container">
+<%
+
+function toIndex(i){
+    return Math.floor(i / 14) * 10 + (i % 14 < 7 ? Math.floor(i%14/2) : i%14 - 4)
+}
+
+
+getCard = (index) => {
+    let sum = 0
+
+    for(let i=0; i<cards.length; i++){
+        let card = cards[i]
+
+        sum += card.amount
+
+        if(index<sum){
+            return card
+        }
+    }
+
+    return null
+}
+
+//Clone map
+map = JSON.parse(JSON.stringify(map ));
+
+
+
+for(let i=0; i<7; i++){
+    for(let j=0; j<7; j++){
+
+        if(map[i][j] === null){
+            card = game.table[toIndex(i*7+j)]
+
+            cardId = card.cardId
+            console.log(cardId)
+            cell = getCard(cardId)
+            map[i][j] = {
+                type: cell.type,
+                target: cell.target,
+                orientation: card.orientation
+            }
+        }
+    }
+}
+
+JSON.stringify(map)
+
+ %>
+
+<script>
+    const source = new EventSource('/event');
+
+    source.addEventListener('message', message => {
+        console.log('Got', message);
+        console.log('Data', event.data);
+        // location.reload();
+    });
+</script>
+
+<style>
+    .row {
+        display: flex;
+        flex-wrap: wrap;
+        margin: 0;
+        padding: 0;
+    }
+
+    /* Create two equal columns that sits next to each other */
+    .column {
+        flex: calc(100%/9);
+        margin: 0;
+        padding: 0;
+    }
+
+    .column .imgcontainer {
+        position: relative;
+        width: 100%;
+        margin: 0;
+        vertical-align: middle;
+    }
+
+    .imgcontainer img{
+        width: 100%;
+    }
+
+    .imgcontainer .topimgs{
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+
+
+</style>
+
+<div class="container" style="max-width: 697px">
     <%- include('common/navbar') -%>
 
     <main>
-        <canvas>
-            <!-- labyrinth game -->
-        </canvas>
+        <div>
+            <h1>Red is the next</h1>
+        </div>
+        <div class="row">
+            <% for(var j = 0; j < 9; j++) { %>
+                <div class="column">
+                    <% for(var i = 0; i < 9; i++) { %>
+                        <% if (i === 0 || j === 0 || i === 8 || j === 8) { %>
+                            <div class="imgcontainer">
+                            <% if ( i === j || i === 8 - j)  { %>
+                                    <img src="/images/game/clear.svg">
+                            <% } else { %>
+                                    <% if ( i === 0 ) { %>
+                                        <% if ( j%2 === 0) { %>
+                                            <img src="/images/game/arrow-1.svg">
+                                        <% } else { %>
+                                            <img src="/images/game/clear.svg">
+                                        <% } %>
+                                    <% } else if ( i === 8 ) { %>
+                                        <% if ( j%2 === 0) { %>
+                                            <img src="/images/game/arrow-3.svg">
+                                        <% } else { %>
+                                            <img src="/images/game/clear.svg">
+                                        <% } %>
+                                    <% } else if ( j === 0 ) { %>
+                                        <% if ( i%2 === 0) { %>
+                                            <img src="/images/game/arrow-0.svg">
+                                        <% } else { %>
+                                            <img src="/images/game/clear.svg">
+                                        <% } %>
+                                    <% } else if ( j === 8 ) { %>
+                                        <% if ( i%2 === 0) { %>
+                                            <img src="/images/game/arrow-2.svg">
+                                        <% } else { %>
+                                            <img src="/images/game/clear.svg">
+                                        <% } %>
+                                    <% } %>
+                            <% } %>
+                            </div>
+                        <% } else { %>
+                            <div class="imgcontainer">
+                                <img class="card"  src="/images/game/map/<%= map[i-1][j-1].type %>-<%= map[i-1][j-1].orientation %>.svg">
+                                <% if ( typeof map[i-1][j-1].home !== 'undefined') { %>
+                                    <img class="topimgs" src="/images/game/<%= map[i-1][j-1].home %>-home.svg">
+                                <% } %>
+                                <% if ( typeof map[i-1][j-1].target !== 'undefined' && map[i-1][j-1].target === true ) { %>
+                                    <img class="topimgs" src="/images/game/target.svg">
+                                <% } %>
+                                <%
+                                    //Players
+                                    let player = game.players.find(p=>p.position === (i-1)*7 + (j-1))
+                                %>
+
+                                <% if ( player !== undefined) { %>
+                                    <img class="topimgs" src="/images/game/<%=player.color%>.svg">
+                                <% } %>
+                            </div>
+                        <% } %>
+                    <% } %>
+                </div>
+            <% } %>
+        </div>
+        <div class="mt-3">
+            <img class="card m-auto" src="/images/game/map/curve-3.svg" style="width: 10%; height: 10%">
+        </div>
     </main>
 </div>
 

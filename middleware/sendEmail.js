@@ -4,7 +4,7 @@ let transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
         user: 'labyrinthboardgame@gmail.com',
-        pass: 'labyrinthboardgame123'
+        pass: '#$labyrinthboardgame123#$'
     }
 })
 
@@ -38,7 +38,7 @@ function sendEmail(user) {
             `
             <p><b>Dear ${user.givenName}!</b></p>
             <p>
-            You forgot your password unfortunately <br>
+            You forgot your password unfortunately. <br>
             You can log in with the following new temporary password.
             </p>
 
@@ -48,7 +48,7 @@ function sendEmail(user) {
             <img class="mb-4" src="${logoURL}" alt="" width="72" height="72">
             <p>
                 <b>Thanks, </b><br>
-                LabyritnhBoardGame team
+                LabyritnhBoardGame Team
             </p>
             `
     }

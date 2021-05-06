@@ -22,6 +22,10 @@ const saveUserMW = require('../middleware/user/saveUserMW')
 const delUserMW = require('../middleware/user/delUserMW')
 const uploadProfileImageMW = require('../middleware/user/uploadProfileImageMW')
 
+//Game
+const initGameMW = require('../middleware/game/initGameMW')
+
+
 const renderMW = require('../middleware/renderMW')
 
 const UserModel = require('../models/user')
@@ -89,8 +93,10 @@ module.exports = function(app) {
         renderMW(objRepo, 'profilesettings'));
 
 
-    app.use('/game',
+    app.use('/game/:teamid',
         authMW(objRepo, 'loggedIn'),
+        getTeamMW(objRepo),
+        initGameMW(objRepo),
         renderMW(objRepo, 'game'))
 
     app.use('/gameteams',

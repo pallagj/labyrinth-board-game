@@ -33,4 +33,24 @@ app.listen(3000, function() {
     console.log('Port :3000');
 });
 
+// Load json files
+const fs = require('fs');
 
+
+fs.readFile('./map/cards.json', (err, data) => {
+    if (err) throw err;
+    cards = JSON.parse(data);
+    app.set('cards', cards)
+});
+
+fs.readFile('./map/cardtypes.json', (err, data) => {
+    if (err) throw err;
+    cardtypes = JSON.parse(data);
+    app.set('cardtypes', cardtypes)
+});
+
+fs.readFile('./map/map.json', (err, data) => {
+    if (err) throw err;
+    map = JSON.parse(data);
+    app.set('map', map)
+});

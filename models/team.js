@@ -5,6 +5,11 @@ const Team = db.model('Team', {
     name: String,
     description: String,
 
+    gameId: {
+        type: Schema.Types.ObjectId,
+        ref: 'Game'
+    },
+
     numberOfGames: {
         type: Number,
         default: 0
