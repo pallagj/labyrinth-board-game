@@ -1,10 +1,14 @@
 let nodemailer = require('nodemailer')
 
+
+const password = process.env['emailPassword']
+
+
 let transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
         user: 'labyrinthboardgame@gmail.com',
-        pass: '#$labyrinthboardgame123#$'
+        pass: password
     }
 })
 

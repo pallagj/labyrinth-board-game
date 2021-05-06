@@ -8,10 +8,10 @@ const simpleLoginMW = require('../middleware/auth/simpleLoginMW')
 
 
 //Team
-const delTeamMW = require('../middleware/Team/delTeamMW')
-const getTeamMW = require('../middleware/Team/getTeamMW')
-const getTeamsMW = require('../middleware/Team/getTeamsMW')
-const saveTeamMW = require('../middleware/Team/saveTeamMW')
+const delTeamMW = require('../middleware/team/delTeamMW')
+const getTeamMW = require('../middleware/team/getTeamMW')
+const getTeamsMW = require('../middleware/team/getTeamsMW')
+const saveTeamMW = require('../middleware/team/saveTeamMW')
 
 //User
 const editUserMW = require('../middleware/user/editUserMW')
