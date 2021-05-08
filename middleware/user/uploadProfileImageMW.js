@@ -25,6 +25,9 @@ module.exports = function(objectrepository, rootDir) {
         profilepicture.mv(rootDir + '/static' + pictureUrl).then(r => {
             res.locals.user.pictureUrl = pictureUrl
             res.locals.user.save(err=>{
+                if(err)
+                    return next(err)
+
                 return next();
             });
         })

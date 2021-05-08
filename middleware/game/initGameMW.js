@@ -54,16 +54,24 @@ module.exports = function (objectrepository) {
                     targets: [0]
                 })
             }
-            game.save()
+            game.save(err=>{
+                if(err)
+                    return next(err)
 
-            res.locals.game = game
-            res.locals.team.gameId = res.locals.game._id
-            res.locals.team.save()
-            next();
+                res.locals.game = game
+                res.locals.team.gameId = res.locals.game._id
+                res.locals.team.save()
+
+                return next();
+            })
+
         } else {
             GameModel.findOne({_id: res.locals.team.gameId}, (err, game) =>{
+                if(err)
+                    return next(err)
+
                 res.locals.game = game
-                next();
+                return next();
             })
         }
     };

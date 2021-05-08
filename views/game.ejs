@@ -35,7 +35,7 @@ for(let i=0; i<7; i++){
             card = game.table[toIndex(i*7+j)]
 
             cardId = card.cardId
-            console.log(cardId)
+
             cell = getCard(cardId)
             map[i][j] = {
                 type: cell.type,
@@ -45,6 +45,9 @@ for(let i=0; i<7; i++){
         }
     }
 }
+
+let plusCard = getCard(game.plusCard.cardId)
+plusCard['orientation'] = game.plusCard.orientation
 
 JSON.stringify(map)
 
@@ -100,7 +103,7 @@ JSON.stringify(map)
 
     <main>
         <div>
-            <h1>Red is the next</h1>
+            <h1>Next turn is ?</h1>
         </div>
         <div class="row">
             <% for(var j = 0; j < 9; j++) { %>
@@ -112,26 +115,26 @@ JSON.stringify(map)
                                     <img src="/images/game/clear.svg">
                             <% } else { %>
                                     <% if ( i === 0 ) { %>
-                                        <% if ( j%2 === 0) { %>
-                                            <img src="/images/game/arrow-1.svg">
+                                        <% if ( j%2 === 0 && game.disabledPush !== (j-1)) { %>
+                                            <a href="/game/<%=team._id%>/push/<%= (j-1) %>;0"><img src="/images/game/arrow-1.svg"></a>
                                         <% } else { %>
                                             <img src="/images/game/clear.svg">
                                         <% } %>
                                     <% } else if ( i === 8 ) { %>
-                                        <% if ( j%2 === 0) { %>
-                                            <img src="/images/game/arrow-3.svg">
+                                        <% if ( j%2 === 0 && game.disabledPush !== 6*7+(j-1)) { %>
+                                            <a href="/game/<%=team._id%>/push/<%= 6*7+(j-1) %>;2"><img src="/images/game/arrow-3.svg"></a>
                                         <% } else { %>
                                             <img src="/images/game/clear.svg">
                                         <% } %>
                                     <% } else if ( j === 0 ) { %>
-                                        <% if ( i%2 === 0) { %>
-                                            <img src="/images/game/arrow-0.svg">
+                                        <% if ( i%2 === 0 && game.disabledPush !== (i-1)*7) { %>
+                                            <a href="/game/<%=team._id%>/push/<%= (i-1)*7 %>;3"><img src="/images/game/arrow-0.svg"></a>
                                         <% } else { %>
                                             <img src="/images/game/clear.svg">
                                         <% } %>
                                     <% } else if ( j === 8 ) { %>
-                                        <% if ( i%2 === 0) { %>
-                                            <img src="/images/game/arrow-2.svg">
+                                        <% if ( i%2 === 0 && game.disabledPush !== (i-1)*7 + 6) { %>
+                                            <a href="/game/<%=team._id%>/push/<%= (i-1)*7 + 6 %>;1"><img src="/images/game/arrow-2.svg"></a>
                                         <% } else { %>
                                             <img src="/images/game/clear.svg">
                                         <% } %>
@@ -140,6 +143,7 @@ JSON.stringify(map)
                             </div>
                         <% } else { %>
                             <div class="imgcontainer">
+                                <a href="/game/<%=team._id%>/step/<%=(i-1)*7+(j-1)%>">
                                 <img class="card"  src="/images/game/map/<%= map[i-1][j-1].type %>-<%= map[i-1][j-1].orientation %>.svg">
                                 <% if ( typeof map[i-1][j-1].home !== 'undefined') { %>
                                     <img class="topimgs" src="/images/game/<%= map[i-1][j-1].home %>-home.svg">
@@ -155,6 +159,7 @@ JSON.stringify(map)
                                 <% if ( player !== undefined) { %>
                                     <img class="topimgs" src="/images/game/<%=player.color%>.svg">
                                 <% } %>
+                                </a>
                             </div>
                         <% } %>
                     <% } %>
@@ -162,7 +167,7 @@ JSON.stringify(map)
             <% } %>
         </div>
         <div class="mt-3">
-            <img class="card m-auto" src="/images/game/map/curve-3.svg" style="width: 10%; height: 10%">
+            <a href="/game/<%=team._id%>/rotate"><img class="card m-auto" src="/images/game/map/<%=plusCard.type%>-<%=plusCard.orientation%>.svg" style="width: 10%; height: 10%"></a>
         </div>
     </main>
 </div>

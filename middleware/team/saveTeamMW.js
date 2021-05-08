@@ -67,9 +67,13 @@ module.exports = function (objectrepository) {
 
             console.log(team['players'])
 
-            team.save()
+            team.save(err=>{
+                if(err)
+                    return next(err)
 
-            res.redirect('/gameteams')
+                return res.redirect('/gameteams')
+            })
+
 
         })
     };

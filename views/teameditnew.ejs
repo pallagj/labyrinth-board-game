@@ -9,7 +9,8 @@ let emails = {
 if(hasTeam){
     for(var i=0; i<teamData.players.length; i++){
         let player = teamData.players[i]
-        let playerData = teamData.playersData[i]
+        let playerData = teamData.playersData.find(p=>p._id.toString()=== player.userId.toString())
+
 
         emails[player.color] = playerData.email
     }

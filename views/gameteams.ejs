@@ -26,7 +26,7 @@
                                     <% for(var k=0; k<team.players.length; k++) { %>
                                         <%
                                             let player = team.players[k]
-                                            let playerData = team.playersData[k]
+                                            let playerData = team.playersData.find(p=>p._id.toString() === player.userId.toString())
 
                                             if(typeof playerData.pictureUrl !== 'undefined')
                                                 pictureUrl = playerData.pictureUrl
@@ -34,7 +34,7 @@
                                                 pictureUrl = '/images/darklogo.svg'
                                         %>
 
-                                        <img src="<%= pictureUrl %>" width="30" height="30" class="rounded-circle m-1" alt="<%= playerData.name %>">
+                                        <img style="border: 3px solid <%=player.color%>" src="<%= pictureUrl %>" width="40" height="40" class="rounded-circle m-1" alt="<%= playerData.name %>">
                                         <b><%= player.victories %></b>
                                     <% } %>
                                 </p>

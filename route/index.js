@@ -24,7 +24,10 @@ const uploadProfileImageMW = require('../middleware/user/uploadProfileImageMW')
 
 //Game
 const initGameMW = require('../middleware/game/initGameMW')
-
+const rotateGameMW = require('../middleware/game/rotateGameMW')
+const pushGameMW = require('../middleware/game/pushGameMW')
+const stepGameMW = require('../middleware/game/stepGameMW')
+const correctNextUserMW = require('../middleware/game/correctNextUserMW')
 
 const renderMW = require('../middleware/renderMW')
 
@@ -92,6 +95,29 @@ module.exports = function(app) {
         uploadProfileImageMW(objRepo, app.get('rootDir')),
         renderMW(objRepo, 'profilesettings'));
 
+    app.use('/game/:teamid/rotate',
+        authMW(objRepo, 'loggedIn'),
+        getTeamMW(objRepo),
+        initGameMW(objRepo),
+        correctNextUserMW(objRepo),
+        rotateGameMW(objRepo),
+        renderMW(objRepo, 'game'))
+
+    app.use('/game/:teamid/step/:cellid',
+        authMW(objRepo, 'loggedIn'),
+        getTeamMW(objRepo),
+        initGameMW(objRepo),
+        correctNextUserMW(objRepo),
+        stepGameMW(objRepo),
+        renderMW(objRepo, 'game'))
+
+    app.use('/game/:teamid/push/:startcell;:dir',
+        authMW(objRepo, 'loggedIn'),
+        getTeamMW(objRepo),
+        initGameMW(objRepo),
+        correctNextUserMW(objRepo),
+        pushGameMW(objRepo),
+        renderMW(objRepo, 'game'))
 
     app.use('/game/:teamid',
         authMW(objRepo, 'loggedIn'),
