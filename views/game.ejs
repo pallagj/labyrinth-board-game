@@ -129,6 +129,9 @@ console.log('My map: '+JSON.stringify(fullMap))
 
                                 <% if ( player !== undefined) { %>
                                     <img class="topimgs" src="/images/game/<%=player.color%>.svg">
+                                    <div class="topimgs" style="top: 33%; left: 43%;font-size: 18px; font-weight: 800; color: black;">
+                                        <%=player.targets.length%>
+                                    </div>
                                 <% } %>
                                 </a>
                             </div>
