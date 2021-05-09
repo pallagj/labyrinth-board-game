@@ -38,11 +38,13 @@ module.exports = function (objectrepository) {
                     return next(err);
                 }
 
+                console.log('team - get: TEAM DATA RECEIVED')
                 res.locals.teamData = teamData[0]
                 TeamModel.findOne({_id: new Types.ObjectId(req.params.teamid)}, (err, team) =>{
                     if(err ||  !team)
                         return next(err)
 
+                    console.log('team - get: TEAM RECEIVED')
                     res.locals.team = team
                     next()
                 })

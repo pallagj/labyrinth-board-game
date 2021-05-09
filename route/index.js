@@ -28,6 +28,9 @@ const rotateGameMW = require('../middleware/game/rotateGameMW')
 const pushGameMW = require('../middleware/game/pushGameMW')
 const stepGameMW = require('../middleware/game/stepGameMW')
 const correctNextUserMW = require('../middleware/game/correctNextUserMW')
+const eventGameMW = require('../middleware/game/eventGameMW')
+const onEventGameMW = require('../middleware/game/onEventGameMW')
+const createActualMapMW = require('../middleware/game/createActualMapMW')
 
 const renderMW = require('../middleware/renderMW')
 
@@ -42,29 +45,11 @@ module.exports = function(app) {
         GameModel: GameModel
     }
 
-    let response = null, i = 0
-    setInterval(t=>{
-        if(response !== null){
-            response.write(`data: ${i}\n\n`)
-            i++
-        }
-    }, 3000)
-
-
-    app.get('/event',
-        (req, res) => {
-            console.log('Got /events');
-            res.set({
-                'Cache-Control': 'no-cache',
-                'Content-Type': 'text/event-stream',
-                'Connection': 'keep-alive'
-            });
-            res.flushHeaders();
-
-            // Tell the client to retry every 10 seconds if connectivity is lost
-            res.write('retry: 10000\n\n');
-            response = res
-        })
+    activeTeams = {}
+    app.get('/game/:teamid/event',
+        authMW(objRepo, 'loggedIn'),
+        getTeamMW(objRepo),
+        eventGameMW(activeTeams))
 
 
     app.use('/team/new',
@@ -101,6 +86,8 @@ module.exports = function(app) {
         initGameMW(objRepo),
         correctNextUserMW(objRepo),
         rotateGameMW(objRepo),
+        onEventGameMW(activeTeams),
+        createActualMapMW(objRepo),
         renderMW(objRepo, 'game'))
 
     app.use('/game/:teamid/step/:cellid',
@@ -108,7 +95,9 @@ module.exports = function(app) {
         getTeamMW(objRepo),
         initGameMW(objRepo),
         correctNextUserMW(objRepo),
+        createActualMapMW(objRepo),
         stepGameMW(objRepo),
+        onEventGameMW(activeTeams),
         renderMW(objRepo, 'game'))
 
     app.use('/game/:teamid/push/:startcell;:dir',
@@ -117,12 +106,15 @@ module.exports = function(app) {
         initGameMW(objRepo),
         correctNextUserMW(objRepo),
         pushGameMW(objRepo),
+        onEventGameMW(activeTeams),
+        createActualMapMW(objRepo),
         renderMW(objRepo, 'game'))
 
     app.use('/game/:teamid',
         authMW(objRepo, 'loggedIn'),
         getTeamMW(objRepo),
         initGameMW(objRepo),
+        createActualMapMW(objRepo),
         renderMW(objRepo, 'game'))
 
     app.use('/gameteams',

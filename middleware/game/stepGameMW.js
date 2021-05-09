@@ -1,6 +1,7 @@
 /**
  */
 const requireOption = require("../requireOption");
+const stepPossible = require('../stepPossible')
 
 
 module.exports = function (objectrepository) {
@@ -17,7 +18,19 @@ module.exports = function (objectrepository) {
 
         for(let i=0; i<players.length; i++){
             if(players[i].color === player.color){
+                if(!stepPossible(res.locals.fullMap, res.locals.cardtypes, players[i].position, req.params.cellid))
+                    return res.redirect('/game/'+req.params.teamid)
+
                 players[i].position = req.params.cellid
+
+                let I = Math.floor(players[i].position / 7)
+                let J = players[i].position % 7
+
+                if(players[i].targets[0] === res.locals.fullMap[I][J].cardId){
+                    console.log('Sikeer')
+                    players[i].targets.splice(0, 1)
+                }
+
                 res.locals.game.turn = players[(i + 1 + players.length) % players.length].color
                 break;
             }

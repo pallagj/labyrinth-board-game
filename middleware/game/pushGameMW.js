@@ -16,11 +16,12 @@ function copy(a, b){
     a.cardId = b.cardId
 }
 
+let mod = (x) => (x + 7) % 7
+
 function push(table, newCard, i, j, di, dj){
     let first = {}, out = {}
     copy(first, table[fromAll(i, j)])
 
-    let mod = (x) => (x + 7) % 7
 
     let I, J
     for(let index = 0; index < 6; index++){
@@ -58,15 +59,33 @@ module.exports = function (objectrepository) {
         let startJ = startcell % 7
 
         let dir = req.params.dir;
+        let dI = (dir-1)%2
+        let dJ = -(dir-2)%2
 
         copy(res.locals.game.plusCard, push(
             res.locals.game.table,
             res.locals.game.plusCard,
             startI,
             startJ,
-            (dir-1)%2,
-            -(dir-2)%2
+            dI,
+            dJ
         ))
+
+        let players = res.locals.game.players
+        players.forEach(player => {
+            let posI = Math.floor(player.position / 7)
+            let posJ = player.position % 7
+            /**
+             * dJ*startI + dJ*dI*x = posI*dJ
+             * dI*startJ + dJ*dI*x = posJ*dI
+             */
+            if(dJ*startI - dI*startJ === posI*dJ - posJ*dI){
+                posI = mod(posI + -dI)
+                posJ = mod(posJ + -dJ)
+            }
+
+            player.position = posI * 7 + posJ
+        })
 
         if(startI === 0 || startI === 6) startI = 6 - startI
         if(startJ === 0 || startJ === 6) startJ = 6 - startJ

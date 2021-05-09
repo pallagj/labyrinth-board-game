@@ -2,64 +2,35 @@
 
 <%
 
-function toIndex(i){
-    return Math.floor(i / 14) * 10 + (i % 14 < 7 ? Math.floor(i%14/2) : i%14 - 4)
+
+let thisPlayer = team.players.find(player => player.userId.toString() === user._id.toString())
+
+let player = team.players.find(player => player.color === game.turn)
+let playerUser = teamData.playersData.find(user => user._id.toString() === player.userId.toString())
+
+let turnMessage = ""
+
+if(thisPlayer !== undefined && thisPlayer.color === game.turn){
+    turnMessage = `It's your turn, ${playerUser.givenName}`
+} else {
+    turnMessage = `It's ${playerUser.givenName}'s turn`
 }
 
+let thisGamePlayer = game.players.find(player => player.color === thisPlayer.color)
+let targetCardId= thisGamePlayer.targets[0]
 
-getCard = (index) => {
-    let sum = 0
-
-    for(let i=0; i<cards.length; i++){
-        let card = cards[i]
-
-        sum += card.amount
-
-        if(index<sum){
-            return card
-        }
-    }
-
-    return null
-}
-
-//Clone map
-map = JSON.parse(JSON.stringify(map ));
-
-
-
-for(let i=0; i<7; i++){
-    for(let j=0; j<7; j++){
-
-        if(map[i][j] === null){
-            card = game.table[toIndex(i*7+j)]
-
-            cardId = card.cardId
-
-            cell = getCard(cardId)
-            map[i][j] = {
-                type: cell.type,
-                target: cell.target,
-                orientation: card.orientation
-            }
-        }
-    }
-}
-
-let plusCard = getCard(game.plusCard.cardId)
-plusCard['orientation'] = game.plusCard.orientation
-
-JSON.stringify(map)
+console.log('My target: ' + targetCardId)
+console.log('My map: '+JSON.stringify(fullMap))
 
  %>
 
 <script>
-    const source = new EventSource('/event');
+    const source = new EventSource('/game/<%=team._id%>/event');
 
     source.addEventListener('message', message => {
         console.log('Got', message);
         console.log('Data', event.data);
-        // location.reload();
+        location.href = '/game/<%=team._id%>/'
     });
 </script>
 
@@ -103,7 +74,7 @@ JSON.stringify(map)
 
     <main>
         <div>
-            <h1>Next turn is ?</h1>
+            <h1><img style="border: 3px solid <%=player.color%>" src="<%= playerUser.pictureUrl %>" width="50" height="50" class="rounded-circle m-1" alt="<%= user.givenName %>"><%=turnMessage%></h1>
         </div>
         <div class="row">
             <% for(var j = 0; j < 9; j++) { %>
@@ -144,11 +115,11 @@ JSON.stringify(map)
                         <% } else { %>
                             <div class="imgcontainer">
                                 <a href="/game/<%=team._id%>/step/<%=(i-1)*7+(j-1)%>">
-                                <img class="card"  src="/images/game/map/<%= map[i-1][j-1].type %>-<%= map[i-1][j-1].orientation %>.svg">
-                                <% if ( typeof map[i-1][j-1].home !== 'undefined') { %>
-                                    <img class="topimgs" src="/images/game/<%= map[i-1][j-1].home %>-home.svg">
+                                <img class="card"  src="/images/game/map/<%= fullMap[i-1][j-1].type %>-<%= fullMap[i-1][j-1].orientation %>.svg">
+                                <% if ( typeof fullMap[i-1][j-1].home !== 'undefined') { %>
+                                    <img class="topimgs" src="/images/game/<%= fullMap[i-1][j-1].home %>-home.svg">
                                 <% } %>
-                                <% if ( typeof map[i-1][j-1].target !== 'undefined' && map[i-1][j-1].target === true ) { %>
+                                <% if (fullMap[i-1][j-1].cardId === targetCardId ) { %>
                                     <img class="topimgs" src="/images/game/target.svg">
                                 <% } %>
                                 <%
@@ -167,7 +138,15 @@ JSON.stringify(map)
             <% } %>
         </div>
         <div class="mt-3">
-            <a href="/game/<%=team._id%>/rotate"><img class="card m-auto" src="/images/game/map/<%=plusCard.type%>-<%=plusCard.orientation%>.svg" style="width: 10%; height: 10%"></a>
+            <div class="imgcontainer">
+            <a href="/game/<%=team._id%>/rotate">
+                <img class="card m-auto" src="/images/game/map/<%=plusCard.type%>-<%=plusCard.orientation%>.svg" style="width: 10%; height: 10%">
+
+                <% if ( plusCard.cardId === targetCardId ) { %>
+                    <img class="topimgs" src="/images/game/target.svg">
+                <% } %>
+            </a>
+            </div>
         </div>
     </main>
 </div>
