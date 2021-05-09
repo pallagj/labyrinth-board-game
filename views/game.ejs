@@ -22,6 +22,26 @@ let targetCardId= thisGamePlayer.targets[0]
 console.log('My target: ' + targetCardId)
 console.log('My map: '+JSON.stringify(fullMap))
 
+function getColor(color){
+    switch(color){
+        case 'yellow': return '#e6e069'
+        case 'blue': return '#6e97f0'
+        case 'green': return '#6ef079'
+        case 'red': return '#f06e6e'
+    }
+}
+
+function getDisabled(index){
+    if(game.disabledPush !== index)
+        return ''
+
+    return '-disabled'
+}
+let pictureUrl
+if(typeof playerUser.pictureUrl !== 'undefined')
+    pictureUrl = playerUser.pictureUrl
+else
+    pictureUrl = '/images/darklogo.svg'
  %>
 
 <script>
@@ -58,12 +78,22 @@ console.log('My map: '+JSON.stringify(fullMap))
 
     .imgcontainer img{
         width: 100%;
+        border-radius: 7px;
     }
 
     .imgcontainer .topimgs{
         position: absolute;
         top: 0;
         left: 0;
+    }
+
+    .arrow{
+        opacity: 0;
+        transition: opacity 1s;
+    }
+
+    .arrow:hover{
+        opacity: 0.5;
     }
 
 
@@ -73,8 +103,8 @@ console.log('My map: '+JSON.stringify(fullMap))
     <%- include('common/navbar') -%>
 
     <main>
-        <div>
-            <h1><img style="border: 3px solid <%=player.color%>" src="<%= playerUser.pictureUrl %>" width="50" height="50" class="rounded-circle m-1" alt="<%= user.givenName %>"><%=turnMessage%></h1>
+        <div class="m-0 p-0">
+            <h1 class="m-0 p-0" style="color: <%=getColor(player.color)%>"><img style="border: 6px solid <%=getColor(player.color)%>" src="<%=pictureUrl%>" width="50" height="50" class="rounded-circle m-2" alt="<%= user.givenName %>"><%=turnMessage%></h1>
         </div>
         <div class="row">
             <% for(var j = 0; j < 9; j++) { %>
@@ -86,26 +116,38 @@ console.log('My map: '+JSON.stringify(fullMap))
                                     <img src="/images/game/clear.svg">
                             <% } else { %>
                                     <% if ( i === 0 ) { %>
-                                        <% if ( j%2 === 0 && game.disabledPush !== (j-1)) { %>
-                                            <a href="/game/<%=team._id%>/push/<%= (j-1) %>;0"><img src="/images/game/arrow-1.svg"></a>
+                                        <% if ( j%2 === 0 ) { %>
+                                            <% let index = (j-1) %>
+                                            <%if(game.disabledPush !== index){%><a href="/game/<%=team._id%>/push/<%=index%>;0"><%}%>
+                                                <img src="/images/game/arrow-1<%=getDisabled(index)%>.svg">
+                                            <%if(game.disabledPush !== index){%><img class="topimgs arrow card" src="/images/game/map/<%=plusCard.type%>-<%=plusCard.orientation%>.svg"></a><%}%>
                                         <% } else { %>
                                             <img src="/images/game/clear.svg">
                                         <% } %>
                                     <% } else if ( i === 8 ) { %>
-                                        <% if ( j%2 === 0 && game.disabledPush !== 6*7+(j-1)) { %>
-                                            <a href="/game/<%=team._id%>/push/<%= 6*7+(j-1) %>;2"><img src="/images/game/arrow-3.svg"></a>
+                                        <% if ( j%2 === 0 ) { %>
+                                            <% let index = 6*7+(j-1) %>
+                                            <%if(game.disabledPush !== index){%><a href="/game/<%=team._id%>/push/<%=index%>;2"><%}%>
+                                                <img src="/images/game/arrow-3<%=getDisabled(index)%>.svg">
+                                            <%if(game.disabledPush !== index){%><img class="topimgs arrow card" src="/images/game/map/<%=plusCard.type%>-<%=plusCard.orientation%>.svg"></a><%}%>
                                         <% } else { %>
                                             <img src="/images/game/clear.svg">
                                         <% } %>
                                     <% } else if ( j === 0 ) { %>
-                                        <% if ( i%2 === 0 && game.disabledPush !== (i-1)*7) { %>
-                                            <a href="/game/<%=team._id%>/push/<%= (i-1)*7 %>;3"><img src="/images/game/arrow-0.svg"></a>
+                                        <% if ( i%2 === 0 ) { %>
+                                            <% let index = (i-1)*7 %>
+                                            <%if(game.disabledPush !== index){%><a href="/game/<%=team._id%>/push/<%=index%>;3"><%}%>
+                                                <img src="/images/game/arrow-0<%=getDisabled(index)%>.svg">
+                                            <%if(game.disabledPush !== index){%><img class="topimgs arrow card" src="/images/game/map/<%=plusCard.type%>-<%=plusCard.orientation%>.svg"></a><%}%>
                                         <% } else { %>
                                             <img src="/images/game/clear.svg">
                                         <% } %>
                                     <% } else if ( j === 8 ) { %>
-                                        <% if ( i%2 === 0 && game.disabledPush !== (i-1)*7 + 6) { %>
-                                            <a href="/game/<%=team._id%>/push/<%= (i-1)*7 + 6 %>;1"><img src="/images/game/arrow-2.svg"></a>
+                                        <% if ( i%2 === 0 ) { %>
+                                            <% let index = (i-1)*7 + 6 %>
+                                            <%if(game.disabledPush !== index){%><a href="/game/<%=team._id%>/push/<%=index%>;1"><%}%>
+                                                <img src="/images/game/arrow-2<%=getDisabled(index)%>.svg">
+                                            <%if(game.disabledPush !== index){%><img class="topimgs arrow card" src="/images/game/map/<%=plusCard.type%>-<%=plusCard.orientation%>.svg"></a><%}%>
                                         <% } else { %>
                                             <img src="/images/game/clear.svg">
                                         <% } %>
@@ -129,7 +171,7 @@ console.log('My map: '+JSON.stringify(fullMap))
 
                                 <% if ( player !== undefined) { %>
                                     <img class="topimgs" src="/images/game/<%=player.color%>.svg">
-                                    <div class="topimgs" style="top: 33%; right: 0;font-size: 18px; font-weight: 800; color: black;">
+                                    <div class="topimgs" style="top: 33%; right: 0;font-size: 18px; font-weight: 800; color: #4a3b32;">
                                         <%=player.targets.length%>
                                     </div>
                                 <% } %>

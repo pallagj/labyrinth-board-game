@@ -1,3 +1,14 @@
+<%
+    function getColor(color){
+        switch(color){
+            case 'yellow': return '#e6e069'
+            case 'blue': return '#6e97f0'
+            case 'green': return '#6ef079'
+            case 'red': return '#f06e6e'
+        }
+    }
+ %>
+
 <%- include('common/header') -%>
 
 <div class="container m-auto pt-4">
@@ -34,7 +45,7 @@
                                                 pictureUrl = '/images/darklogo.svg'
                                         %>
 
-                                        <img style="border: 3px solid <%=player.color%>" src="<%= pictureUrl %>" width="40" height="40" class="rounded-circle m-1" alt="<%= playerData.name %>">
+                                        <img style="border: 5px solid <%=getColor(player.color)%>" src="<%= pictureUrl %>" width="45" height="45" class="rounded-circle m-1" alt="<%= playerData.name %>">
                                         <b><%= player.victories %></b>
                                     <% } %>
                                 </p>
