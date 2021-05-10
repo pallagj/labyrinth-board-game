@@ -69,7 +69,7 @@ else
         padding: 0;
     }
 
-    .column .imgcontainer {
+    .imgcontainer {
         position: relative;
         width: 100%;
         margin: 0;
@@ -83,17 +83,18 @@ else
 
     .imgcontainer .topimgs{
         position: absolute;
+        height: 100%;
         top: 0;
         left: 0;
     }
 
     .arrow{
         opacity: 0;
-        transition: opacity 1s;
+        transition: opacity 0.3s;
     }
 
     .arrow:hover{
-        opacity: 0.5;
+        opacity: 0.8;
     }
 
 
@@ -175,6 +176,7 @@ else
                                         <%=player.targets.length%>
                                     </div>
                                 <% } %>
+                                    <img class="topimgs arrow" src="/images/game/<%=thisPlayer.color%>.svg">
                                 </a>
                             </div>
                         <% } %>
@@ -190,6 +192,7 @@ else
                 <% if ( plusCard.cardId === targetCardId ) { %>
                     <img class="topimgs" src="/images/game/target.svg">
                 <% } %>
+                <img class="topimgs arrow" src="/images/game/rotate.svg">
             </a>
             </div>
         </div>

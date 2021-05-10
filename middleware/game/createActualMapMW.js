@@ -56,7 +56,7 @@ module.exports = function (objectrepository) {
 
         let plusCard = res.locals.cardsMap[game.plusCard.cardId] // getCard(game.plusCard.cardId, res.locals.cards)
         plusCard['orientation'] = game.plusCard.orientation
-        //plusCard['cardId'] = game.plusCard.cardId
+        plusCard['cardId'] = game.plusCard.cardId
 
         res.locals.plusCard = plusCard
         next()
