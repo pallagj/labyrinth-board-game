@@ -1,111 +1,46 @@
-<%- include('common/header') -%>
-
 <%
+    let thisPlayer = team.players.find(player => player.userId.toString() === user._id.toString())
 
+    let player = team.players.find(player => player.color === game.turn)
+    let playerUser = teamData.playersData.find(user => user._id.toString() === player.userId.toString())
 
-let thisPlayer = team.players.find(player => player.userId.toString() === user._id.toString())
+    let thisGamePlayer = game.players.find(player => player.color === thisPlayer.color)
+    let targetCardId= thisGamePlayer.targets[0]
 
-let player = team.players.find(player => player.color === game.turn)
-let playerUser = teamData.playersData.find(user => user._id.toString() === player.userId.toString())
+    let turnMessage = ""
 
-let turnMessage = ""
-
-if(thisPlayer !== undefined && thisPlayer.color === game.turn){
-    turnMessage = `It's your turn, ${playerUser.givenName}`
-} else {
-    turnMessage = `It's ${playerUser.givenName}'s turn`
-}
-
-let thisGamePlayer = game.players.find(player => player.color === thisPlayer.color)
-let targetCardId= thisGamePlayer.targets[0]
-
-console.log('My target: ' + targetCardId)
-console.log('My map: '+JSON.stringify(fullMap))
-
-function getColor(color){
-    switch(color){
-        case 'yellow': return '#e6e069'
-        case 'blue': return '#6e97f0'
-        case 'green': return '#6ef079'
-        case 'red': return '#f06e6e'
+    if(thisPlayer !== undefined && thisPlayer.color === game.turn){
+        turnMessage = `It's your turn, ${playerUser.givenName}`
+    } else {
+        turnMessage = `It's ${playerUser.givenName}'s turn`
     }
-}
 
-function getDisabled(index){
-    if(game.disabledPush !== index)
-        return ''
+    function getDisabled(index){
+        if(game.disabledPush !== index)
+            return ''
 
-    return '-disabled'
-}
-let pictureUrl
-if(typeof playerUser.pictureUrl !== 'undefined')
-    pictureUrl = playerUser.pictureUrl
-else
-    pictureUrl = '/images/darklogo.svg'
+        return '-disabled'
+    }
+
+    let pictureUrl
+    if(typeof playerUser.pictureUrl !== 'undefined')
+        pictureUrl = playerUser.pictureUrl
+    else
+        pictureUrl = '/images/darklogo.svg'
  %>
 
-<script>
-    const source = new EventSource('/game/<%=team._id%>/event');
-
-    source.addEventListener('message', message => {
-        console.log('Got', message);
-        console.log('Data', event.data);
-        location.href = '/game/<%=team._id%>/'
-    });
-</script>
-
-<style>
-    .row {
-        display: flex;
-        flex-wrap: wrap;
-        margin: 0;
-        padding: 0;
-    }
-
-    /* Create two equal columns that sits next to each other */
-    .column {
-        flex: calc(100%/9);
-        margin: 0;
-        padding: 0;
-    }
-
-    .imgcontainer {
-        position: relative;
-        width: 100%;
-        margin: 0;
-        vertical-align: middle;
-    }
-
-    .imgcontainer img{
-        width: 100%;
-        border-radius: 7px;
-    }
-
-    .imgcontainer .topimgs{
-        position: absolute;
-        height: 100%;
-        top: 0;
-        left: 0;
-    }
-
-    .arrow{
-        opacity: 0;
-        transition: opacity 0.3s;
-    }
-
-    .arrow:hover{
-        opacity: 0.8;
-    }
-
-
-</style>
+<%- include('common/header') -%>
+<link href="/css/gamestyle.css" rel="stylesheet">
 
 <div class="container" style="max-width: 697px">
     <%- include('common/navbar') -%>
 
     <main>
         <div class="m-0 p-0">
-            <h1 class="m-0 p-0" style="color: <%=getColor(player.color)%>"><img style="border: 6px solid <%=getColor(player.color)%>" src="<%=pictureUrl%>" width="50" height="50" class="rounded-circle m-2" alt="<%= user.givenName %>"><%=turnMessage%></h1>
+            <h1 class="m-0 p-0" style="color: var(--<%=player.color%>)">
+                <img style="border: 6px solid var(--<%=player.color%>)" src="<%=pictureUrl%>" width="50" height="50" class="rounded-circle m-2" alt="<%= user.givenName %>">
+                <%=turnMessage%>
+            </h1>
         </div>
         <div class="row">
             <% for(var j = 0; j < 9; j++) { %>
@@ -198,5 +133,15 @@ else
         </div>
     </main>
 </div>
+
+<script>
+    const source = new EventSource('/game/<%=team._id%>/event');
+
+    source.addEventListener('message', message => {
+        console.log('Got', message);
+        console.log('Data', event.data);
+        location.href = '/game/<%=team._id%>/'
+    });
+</script>
 
 <%- include('common/footer') -%>

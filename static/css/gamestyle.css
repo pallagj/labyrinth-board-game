@@ -1,0 +1,40 @@
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0;
+    padding: 0;
+}
+
+.column {
+    flex: calc(100%/9);
+    margin: 0;
+    padding: 0;
+}
+
+.imgcontainer {
+    position: relative;
+    width: 100%;
+    margin: 0;
+    vertical-align: middle;
+}
+
+.imgcontainer img{
+    width: 100%;
+    border-radius: 7px;
+}
+
+.imgcontainer .topimgs{
+    position: absolute;
+    height: 100%;
+    top: 0;
+    left: 0;
+}
+
+.arrow{
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.arrow:hover{
+    opacity: 0.8;
+}

@@ -47,3 +47,10 @@ body {
     border-top-left-radius: 0;
     border-top-right-radius: 0;
 }
+
+:root {
+    --yellow: #e6e069;
+    --blue: #6e97f0;
+    --green: #6ef079;
+    --red: #f06e6e;
+}
