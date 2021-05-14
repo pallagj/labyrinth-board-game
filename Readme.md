@@ -1,8 +1,8 @@
 # Labyrinth - Express - Node.js
 Labirintus társasjátékot valósítom meg mind szerver és mind kliens oldalon.
-<div   style="text-align: center">
+<p align="center">
     <img src="example.gif" style="width: 80%"/>
-</div>
+</p>
 
 ## Szabály
 A társasjáték szabályához nyisd meg a következő weboldalt:
