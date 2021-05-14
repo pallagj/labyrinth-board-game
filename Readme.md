@@ -1,7 +1,8 @@
 # Labyrinth - Express - Node.js
-Labirintus társasjátékot valósítom meg mind szerver és mind kliens oldalon.
+Labirintus társasjátékot valósítom meg mind szerver és mind kliens oldalon: <br>
+https://labyrinth-board-game.jonatnpallag.repl.co/
 <p align="center">
-    <img src="example.gif" width="300px" height="420"/>
+    <img src="example2.gif" width="450px" height="630"/>
 </p>
 
 ## Szabály
