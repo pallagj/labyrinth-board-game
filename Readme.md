@@ -1,7 +1,7 @@
 # Labyrinth - Express - Node.js
 Labirintus társasjátékot valósítom meg mind szerver és mind kliens oldalon.
 <p align="center">
-    <img src="example.gif" style="max-width: 60%"/>
+    <img src="example.gif" width="60%"/>
 </p>
 
 ## Szabály
