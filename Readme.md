@@ -1,6 +1,8 @@
 # Labyrinth - Express - Node.js
 Labirintus társasjátékot valósítom meg mind szerver és mind kliens oldalon.
 
+<img src="example.gif" width="40" height="40"  style="margin-left:auto; display: block; margin-right: auto;width: 50%;height: 50%"/>
+
 ## Szabály
 A társasjáték szabályához nyisd meg a következő weboldalt:
 url http://elfnet.hu/kikapcsolodas/tarsasjatekok/labyrinth.php
